@@ -16,8 +16,11 @@ module Bullet
 
           Bullet.debug("Detector::NPlusOneQuery#call_association", "object: #{object.bullet_key}, associations: #{associations}")
           if conditions_met?(object.bullet_key, associations)
+            project_callers = caller_in_project
+            return if Bullet.whitelisted_path?(project_callers.first)
+
             Bullet.debug("detect n + 1 query", "object: #{object.bullet_key}, associations: #{associations}")
-            create_notification caller_in_project, object.class.to_s, associations
+            create_notification project_callers, object.class.to_s, associations
           end
         end
 

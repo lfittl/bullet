@@ -72,16 +72,26 @@ module Bullet
     end
 
     def add_whitelist(options)
-      @whitelist[options[:type]][options[:class_name].classify] ||= []
-      @whitelist[options[:type]][options[:class_name].classify] << options[:association].to_sym
+      if options[:path]
+        @whitelisted_paths ||= []
+        @whitelisted_paths << options[:path]
+      elsif
+        @whitelist[options[:type]][options[:class_name].classify] ||= []
+        @whitelist[options[:type]][options[:class_name].classify] << options[:association].to_sym
+      end
     end
 
     def get_whitelist_associations(type, class_name)
       Array(@whitelist[type][class_name])
     end
 
+    def whitelisted_path?(path)
+      @whitelisted_paths.find { |whitelisted_path| path.include?(whitelisted_path.to_s) }
+    end
+
     def reset_whitelist
       @whitelist = {:n_plus_one_query => {}, :unused_eager_loading => {}, :counter_cache => {}}
+      @whitelisted_paths = []
     end
 
     def bullet_logger=(active)
