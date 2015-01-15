@@ -119,7 +119,7 @@ module Bullet
           result = origin_reader(force_reload)
           if @owner.class.name !~ /^HABTM_/
             Bullet::Detector::NPlusOneQuery.call_association(@owner, @reflection.name) unless @inversed
-            Bullet::Detector::NPlusOneQuery.add_possible_objects(result)
+            #Bullet::Detector::NPlusOneQuery.add_possible_objects(result)
           end
           result
         end

@@ -5,6 +5,7 @@ module Bullet
 
       def initialize
         @registry = {}
+        @callers  = {}
       end
 
       def [](key)
@@ -24,6 +25,7 @@ module Bullet
       end
 
       def add(key, value)
+        @callers[[key, value]] = caller
         @registry[key] ||= Set.new
         if value.is_a? Array
           @registry[key] += value
@@ -34,6 +36,10 @@ module Bullet
 
       def include?(key, value)
         !@registry[key].nil? && @registry[key].include?(value)
+      end
+
+      def find_caller(key, value)
+        @callers[[key, value]]
       end
     end
   end

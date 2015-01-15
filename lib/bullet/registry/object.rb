@@ -8,6 +8,10 @@ module Bullet
       def include?(bullet_key)
         super(bullet_key.bullet_class_name, bullet_key)
       end
+
+      def find_caller(bullet_key)
+        super(bullet_key.bullet_class_name, bullet_key)
+      end
     end
   end
 end

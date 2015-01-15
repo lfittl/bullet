@@ -72,6 +72,13 @@ if !mongoid? && active_record4?
 
         expect(Bullet::Detector::Association).to be_detecting_unpreloaded_association_for(Post, :comments)
       end
+
+      it "should not detect created post => comments" do
+        post = Post.find_by(id: Post.first.id)
+        post.comments.map(&:name)
+
+        expect(Bullet::Detector::Association).to be_completely_preloading_associations
+      end
     end
 
     context "category => posts => comments" do

@@ -17,6 +17,8 @@ module Bullet
           Bullet.debug("Detector::NPlusOneQuery#call_association", "object: #{object.bullet_key}, associations: #{associations}")
           if conditions_met?(object.bullet_key, associations)
             Bullet.debug("detect n + 1 query", "object: #{object.bullet_key}, associations: #{associations}")
+            Bullet.debug("n+1 object backtrace", possible_objects.find_caller(object.bullet_key).join("\n"))
+            Bullet.debug("n+1 association backtrace", caller.join("\n"))
             create_notification caller_in_project, object.class.to_s, associations
           end
         end
